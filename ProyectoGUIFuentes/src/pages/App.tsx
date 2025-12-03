@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 import { parseInstanceTxt } from "../services/fileParser";
 import { buildDzn } from "../services/dznBuilder";
-import { runMinizinc } from "../services/MinizincService";
+import { runMinizinc } from "../services/minizincService";
 import { useInstanceState } from "../hooks/useInstanceState";
 
 import { Header } from "../components/Header";
