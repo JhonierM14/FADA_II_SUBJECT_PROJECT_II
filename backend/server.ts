@@ -19,7 +19,7 @@ let MINIZINC = null;
 for (const path of commonPaths) {
   if (fs.existsSync(path)) {
     MINIZINC = `"${path}"`;
-    console.log("✔ MiniZinc encontrado en:", path);
+    console.log("MiniZinc encontrado en:", path);
     break;
   }
 }
