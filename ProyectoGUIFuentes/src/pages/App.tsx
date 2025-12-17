@@ -47,7 +47,7 @@ export default function App() {
 
     const a = document.createElement("a");
     a.href = url;
-    a.download = "Datos.dzn";
+    a.download = "DatosProyecto.dzn";
     a.click();
   }
 

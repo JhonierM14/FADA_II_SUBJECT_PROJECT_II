@@ -39,7 +39,7 @@ app.post("/run", (req, res) => {
       return res.status(400).send("Error: No se recibió contenido .dzn");
     }
 
-    const dznPath = "Datos.dzn";
+    const dznPath = "DatosProyecto.dzn";
     fs.writeFileSync(dznPath, dzn);
 
     const modelPath = "Proyecto.mzn";
