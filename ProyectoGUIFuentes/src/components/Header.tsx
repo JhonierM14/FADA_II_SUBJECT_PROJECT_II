@@ -13,9 +13,6 @@ export function Header({ onPickFile, onDownload, onRun }: HeaderProps) {
         <h1 className="text-2xl font-semibold">
           MinPol — Minimización de Polarización
         </h1>
-        <p className="text-sm text-slate-500">
-          Interfaz moderna para generar instancias .dzn y ejecutar el modelo
-        </p>
       </div>
 
       <div className="flex gap-3">
