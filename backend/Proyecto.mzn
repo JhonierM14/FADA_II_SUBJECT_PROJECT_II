@@ -43,7 +43,7 @@ array[1..3] of float: cost_k = [1.0, 1.5, 2.0];
 % se mueven desde la opinión i hacia la opinión j.
 % Si j = i, significa que se quedan donde están.
 % El solver decide estos valores para encontrar la distribución óptima.
-array[1..3, 1..m, 1..m] of var 0..1000: x;
+array[1..3, 1..m, 1..m] of var 0..n: x;
 
 
 % ---------------------------------------------------------
@@ -195,30 +195,38 @@ constraint
 solve minimize Pol;
 
 
-% ---------------------------------------------------------
-% Salida legible para el usuario
-% ---------------------------------------------------------
-
 output [
-  "Polarización = ", show(Pol), "\n",
-  "Mediana = ", show(median), "\n",
-  "Conteo final por opinión = ", show(final_count), "\n\n",
+  % 1) Polarización 
+  show(Pol), "\n",
 
-  "Matrices de movimientos x[k,i,j]:\n",
-  "k = 1 (resistencia baja):\n",
-    show([ [ x[1,i,j] | j in 1..m ] | i in 1..m ]), "\n",
-  "k = 2 (resistencia media):\n",
-    show([ [ x[2,i,j] | j in 1..m ] | i in 1..m ]), "\n",
-  "k = 3 (resistencia alta):\n",
-    show([ [ x[3,i,j] | j in 1..m ] | i in 1..m ]), "\n",
+  % 2) Nivel de resistencia baja
+  "1\n",
+  concat([
+    concat([
+      show(x[1,i,j]) ++ if j < m then "," else "" endif
+      | j in 1..m
+    ]) ++ "\n"
+    | i in 1..m
+  ]),
 
-  "Costo total utilizado = ",
-    show(sum(k in 1..3, i in 1..m, j in 1..m)(
-          x[k,i,j] * abs(i-j) * cost_k[k]
-        )), "\n",
+  % 3) Nivel de resistencia media
+  "2\n",
+  concat([
+    concat([
+      show(x[2,i,j]) ++ if j < m then "," else "" endif
+      | j in 1..m
+    ]) ++ "\n"
+    | i in 1..m
+  ]),
 
-  "Cantidad total de movimientos (distancia acumulada) = ",
-    show(sum(k in 1..3, i in 1..m, j in 1..m)(
-          x[k,i,j] * abs(i-j)
-        )), "\n"
+  % 4) Nivel de resistencia alta
+  "3\n",
+  concat([
+    concat([
+      show(x[3,i,j]) ++ if j < m then "," else "" endif
+      | j in 1..m
+    ]) ++ "\n"
+    | i in 1..m
+  ])
 ];
+

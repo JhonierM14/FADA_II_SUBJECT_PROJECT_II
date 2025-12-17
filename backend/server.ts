@@ -11,7 +11,7 @@ app.use(express.json({ limit: "5mb" }));
 const commonPaths = [
   "C:\\\\Program Files\\\\MiniZinc\\\\minizinc.exe",
   "C:\\\\Program Files\\\\MiniZinc IDE (bundled)\\\\bin\\\\minizinc.exe",
-  "C:\\\\Program Files (x86)\\\\MiniZinc\\\\minizinc.exe"
+  "C:\\\\Program Files (x86)\\\\MiniZinc\\\\minizinc.exe",
 ];
 
 let MINIZINC = null;
@@ -26,7 +26,9 @@ for (const path of commonPaths) {
 
 if (!MINIZINC) {
   MINIZINC = "minizinc";
-  console.log("MiniZinc no encontrado en rutas típicas. Se usará PATH del sistema.");
+  console.log(
+    "MiniZinc no encontrado en rutas típicas. Se usará PATH del sistema."
+  );
 }
 
 app.post("/run", (req, res) => {
@@ -37,13 +39,15 @@ app.post("/run", (req, res) => {
       return res.status(400).send("Error: No se recibió contenido .dzn");
     }
 
-    const dznPath = "DatosProyecto.dzn";
+    const dznPath = "Datos.dzn";
     fs.writeFileSync(dznPath, dzn);
 
     const modelPath = "Proyecto.mzn";
 
     if (!fs.existsSync(modelPath)) {
-      return res.status(500).send("Error: No se encuentra Proyecto.mzn en el backend.");
+      return res
+        .status(500)
+        .send("Error: No se encuentra Proyecto.mzn en el backend.");
     }
 
     const command = `${MINIZINC} "${modelPath}" "${dznPath}" --solver gecode`;
@@ -53,12 +57,28 @@ app.post("/run", (req, res) => {
     exec(command, (error, stdout, stderr) => {
       if (error) {
         console.error("Error ejecutando MiniZinc:", error);
-        return res.status(500).send(
-          "Error ejecutando MiniZinc. " +
-          "Asegúrate de que esté instalado.\n\n" +
-          "stderr:\n" + stderr
-        );
+        return res
+          .status(500)
+          .send(
+            "Error ejecutando MiniZinc. " +
+              "Asegúrate de que esté instalado.\n\n" +
+              "stderr:\n" +
+              stderr
+          );
       }
+
+      console.log("CWD (directorio real):", process.cwd());
+      console.log("¿Existe salidas antes?", fs.existsSync("salidas"));
+
+      // Se guarda la salida en un archivo solucion.txt
+      const outputDir = "salidas";
+      if (!fs.existsSync(outputDir)) {
+        fs.mkdirSync(outputDir);
+      }
+
+      const outputFilePath = `${outputDir}/solucion.txt`;
+      fs.writeFileSync(outputFilePath, stdout);
+      console.log("Salida guardada en:", outputFilePath);
 
       res.send(stdout);
     });

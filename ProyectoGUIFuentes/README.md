@@ -30,8 +30,8 @@ Asegurarse de tener instalado:
 Clonar repositorio
 
 ´´´
-git clone https://github.com/tu-repo/minpol-gui.git
-cd minpol-gui
+git clone https://github.com/JhonierM14/FADA_II_SUBJECT_PROJECT_II
+cd ProyectoGUIFuentes
 ´´´
 
 Instalar dependencias:

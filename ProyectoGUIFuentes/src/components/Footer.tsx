@@ -11,7 +11,7 @@ export function Footer() {
       <p className="mt-2">
         {" "}
         Archivo informe de referencia del proyecto subido como:{" "}
-        <code>Proyecto_II_ADA_II_nov_2025/names.pdf</code>{" "}
+        <code>Informe_MPII.pdf</code>{" "}
       </p>{" "}
     </footer>
   );
